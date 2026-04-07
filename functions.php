@@ -69,6 +69,8 @@ add_action('wp_enqueue_scripts', 'holthe_enqueue_scripts');
 // Register Custom Post Types
 function holthe_register_post_types() {
     // Case / Reference Post Type
+    // NOTE: has_archive is disabled and the rewrite slug is 'prosjekt' so the
+    // /arbeid/ URL is free to serve the page with the page-arbeid.php template.
     register_post_type('case_study', array(
         'labels' => array(
             'name'          => 'Prosjekter',
@@ -83,11 +85,11 @@ function holthe_register_post_types() {
             'menu_name'     => 'Prosjekter',
         ),
         'public'       => true,
-        'has_archive'  => true,
+        'has_archive'  => false,
         'show_in_rest' => true,
         'supports'     => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
         'menu_icon'    => 'dashicons-portfolio',
-        'rewrite'      => array('slug' => 'arbeid'),
+        'rewrite'      => array('slug' => 'prosjekt'),
     ));
 
     // Case categories

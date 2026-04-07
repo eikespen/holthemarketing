@@ -69,7 +69,7 @@ function holthe_default_nav() {
         'reklameproduksjon'    => 'Reklameproduksjon',
         'event-og-messe'       => 'Event og Messe',
         'radgivning'           => 'Rådgivning',
-        'om-oss'               => 'Om Oss',
+        'om-oss'               => 'Om oss',
         'kontakt'              => 'Kontakt',
     );
     echo '<ul>';
