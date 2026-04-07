@@ -4,14 +4,15 @@
  * Template Post Type: page
  */
 get_header();
+the_post();
 ?>
 
 <main class="site-main">
 
     <section class="page-hero dark">
         <div class="container">
-            <h1>Vårt arbeid</h1>
-            <p class="lead">Se hvordan vi har hjulpet bedrifter med å vokse gjennom smart strategi og eksepsjonell gjennomføring.</p>
+            <h1><?php holthe_text('hero_title', 'Vårt arbeid'); ?></h1>
+            <p class="lead"><?php holthe_text('hero_description', 'Se hvordan vi har hjulpet bedrifter med å vokse gjennom smart strategi og eksepsjonell gjennomføring.'); ?></p>
         </div>
     </section>
 
@@ -107,32 +108,30 @@ get_header();
 
     <section class="section section-dark">
         <div class="container">
-            <h2 class="text-center" style="margin-bottom: 3rem;">Resultater som teller</h2>
+            <h2 class="text-center" style="margin-bottom: 3rem;"><?php holthe_text('stats_title', 'Resultater som teller'); ?></h2>
             <div class="stats-grid">
+                <?php
+                $stat_defaults = array(
+                    1 => array('100+', 'Prosjekter levert'),
+                    2 => array('50+',  'Fornøyde kunder'),
+                    3 => array('15+',  'År med erfaring'),
+                    4 => array('98%',  'Kundetilfredshet'),
+                );
+                foreach ($stat_defaults as $i => $d) :
+                ?>
                 <div>
-                    <div class="stat-value">100+</div>
-                    <div class="stat-label">Prosjekter levert</div>
+                    <div class="stat-value"><?php holthe_text("stat_{$i}_value", $d[0]); ?></div>
+                    <div class="stat-label"><?php holthe_text("stat_{$i}_label", $d[1]); ?></div>
                 </div>
-                <div>
-                    <div class="stat-value">50+</div>
-                    <div class="stat-label">Fornøyde kunder</div>
-                </div>
-                <div>
-                    <div class="stat-value">15+</div>
-                    <div class="stat-label">År med erfaring</div>
-                </div>
-                <div>
-                    <div class="stat-value">98%</div>
-                    <div class="stat-label">Kundetilfredshet</div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
 
     <section class="cta-section">
         <div class="container">
-            <h2>Skal vi skape resultater for deg også?</h2>
-            <p>La oss diskutere hvordan vi kan hjelpe din bedrift med å nå sine mål.</p>
+            <h2><?php holthe_text('cta_title', 'Skal vi skape resultater for deg også?'); ?></h2>
+            <p><?php holthe_text('cta_description', 'La oss diskutere hvordan vi kan hjelpe din bedrift med å nå sine mål.'); ?></p>
             <div class="btn-group">
                 <a href="<?php echo esc_url(holthe_page_url('kontakt')); ?>" class="btn btn-primary">Kontakt oss</a>
                 <a href="tel:<?php echo esc_attr(holthe_phone_tel()); ?>" class="btn btn-outline">Ring <?php echo esc_html(holthe_phone()); ?></a>

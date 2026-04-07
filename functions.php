@@ -6,6 +6,9 @@
  * @author Espen Tjøstheim Eik
  */
 
+// Include meta boxes
+require_once get_template_directory() . '/inc/meta-boxes.php';
+
 // Theme Setup
 function holthe_theme_setup() {
     add_theme_support('title-tag');

@@ -2,8 +2,11 @@
 /**
  * Service page CTA
  */
-$title = $args['title'] ?? 'Klar for å ta markedsføringen til neste nivå?';
-$description = $args['description'] ?? 'Kontakt oss for en uforpliktende samtale om hvordan vi kan hjelpe deg.';
+$default_title       = $args['title']       ?? 'Klar for å ta markedsføringen til neste nivå?';
+$default_description = $args['description'] ?? 'Kontakt oss for en uforpliktende samtale om hvordan vi kan hjelpe deg.';
+
+$title       = holthe_field('cta_title', $default_title);
+$description = holthe_field('cta_description', $default_description);
 ?>
 <section class="cta-section">
     <div class="container">

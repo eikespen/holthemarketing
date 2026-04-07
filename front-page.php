@@ -3,6 +3,14 @@
  * Front Page - Homepage
  */
 get_header();
+
+// Make sure $post is set for holthe_field() helpers
+$front_id = (int) get_option('page_on_front');
+if ($front_id) {
+    global $post;
+    $post = get_post($front_id);
+    setup_postdata($post);
+}
 ?>
 
 <main class="site-main">
@@ -15,16 +23,16 @@ get_header();
         <div class="container">
             <div class="hero-content">
                 <h1>
-                    Markedsføring<br>
-                    som skaper<br>
-                    <span class="muted">resultater</span>
+                    <?php holthe_text('hero_title_1', 'Markedsføring'); ?><br>
+                    <?php holthe_text('hero_title_2', 'som skaper'); ?><br>
+                    <span class="muted"><?php holthe_text('hero_title_3', 'resultater'); ?></span>
                 </h1>
-                <p class="hero-subtitle">Din totalleverandør innen</p>
-                <p class="hero-subtitle-strong">markedsføring, reklameprodukter og arrangementer.</p>
-                <p class="hero-subtitle-small">Vi gjør næringslivet synlig</p>
+                <p class="hero-subtitle"><?php holthe_text('hero_sub_1', 'Din totalleverandør innen'); ?></p>
+                <p class="hero-subtitle-strong"><?php holthe_text('hero_sub_2', 'markedsføring, reklameprodukter og arrangementer.'); ?></p>
+                <p class="hero-subtitle-small"><?php holthe_text('hero_sub_3', 'Vi gjør næringslivet synlig'); ?></p>
                 <div class="btn-group">
-                    <a href="<?php echo esc_url(holthe_page_url('kontakt')); ?>" class="btn btn-white">Start ditt prosjekt</a>
-                    <a href="<?php echo esc_url(holthe_page_url('arbeid')); ?>" class="btn btn-outline-white">Se vårt arbeid</a>
+                    <a href="<?php echo esc_url(holthe_page_url('kontakt')); ?>" class="btn btn-white"><?php holthe_text('hero_btn_primary', 'Start ditt prosjekt'); ?></a>
+                    <a href="<?php echo esc_url(holthe_page_url('arbeid')); ?>" class="btn btn-outline-white"><?php holthe_text('hero_btn_secondary', 'Se vårt arbeid'); ?></a>
                 </div>
             </div>
         </div>
@@ -135,34 +143,26 @@ get_header();
             <p class="section-subtitle">Utfordringer vi hjelper deg med å løse</p>
 
             <div class="services-list">
+                <?php
+                $service_defaults = array(
+                    1 => array('title' => 'Markedsføring',    'slug' => 'markedsforing',     'desc' => 'Vi kan være din eksterne markedsavdeling og bistå der dere trenger det – enten det er digital eller analog markedsføring.'),
+                    2 => array('title' => 'Event & Messe',    'slug' => 'event-og-messe',    'desc' => 'Vi hjelper deg med arrangementer og messer for dine kunder eller leverandører. Fra idé til gjennomføring.'),
+                    3 => array('title' => 'Reklameprodukter', 'slug' => 'reklameproduksjon', 'desc' => 'Film, animasjon, markedsmateriell, trykksaker, skilt & dekor. Vi leverer på 1–3 dager!'),
+                    4 => array('title' => 'Rådgivning',       'slug' => 'radgivning',        'desc' => 'Har du en plan for markedsføringen din? Vi hjelper deg med å legge en strategi som når din kundegruppe på en effektiv måte.'),
+                );
+                foreach ($service_defaults as $i => $d) :
+                    $title = holthe_field("service_{$i}_title", $d['title']);
+                    $desc  = holthe_field("service_{$i}_desc", $d['desc']);
+                    $slug  = holthe_field("service_{$i}_slug", $d['slug']);
+                ?>
                 <div class="service-item">
-                    <div class="service-number">01</div>
+                    <div class="service-number"><?php echo esc_html(sprintf('%02d', $i)); ?></div>
                     <div class="service-content">
-                        <h3><a href="<?php echo esc_url(holthe_page_url('markedsforing')); ?>">Markedsføring</a></h3>
-                        <p>Vi kan være din eksterne markedsavdeling og bistå der dere trenger det &#8211; enten det er digital eller analog markedsføring.</p>
+                        <h3><a href="<?php echo esc_url(holthe_page_url($slug)); ?>"><?php echo esc_html($title); ?></a></h3>
+                        <p><?php echo esc_html($desc); ?></p>
                     </div>
                 </div>
-                <div class="service-item">
-                    <div class="service-number">02</div>
-                    <div class="service-content">
-                        <h3><a href="<?php echo esc_url(holthe_page_url('event-og-messe')); ?>">Event &amp; Messe</a></h3>
-                        <p>Vi hjelper deg med arrangementer og messer for dine kunder eller leverandører. Fra idé til gjennomføring.</p>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <div class="service-number">03</div>
-                    <div class="service-content">
-                        <h3><a href="<?php echo esc_url(holthe_page_url('reklameproduksjon')); ?>">Reklameprodukter</a></h3>
-                        <p>Film, animasjon, markedsmateriell, trykksaker, skilt &amp; dekor. Vi leverer på 1&#8211;3 dager!</p>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <div class="service-number">04</div>
-                    <div class="service-content">
-                        <h3><a href="<?php echo esc_url(holthe_page_url('radgivning')); ?>">Rådgivning</a></h3>
-                        <p>Har du en plan for markedsføringen din? Vi hjelper deg med å legge en strategi som når din kundegruppe på en effektiv måte.</p>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -171,22 +171,20 @@ get_header();
     <section class="section section-dark">
         <div class="container">
             <div class="stats-grid">
+                <?php
+                $stat_defaults = array(
+                    1 => array('15+',  'År med erfaring'),
+                    2 => array('100+', 'Prosjekter levert'),
+                    3 => array('24/7', 'Support'),
+                    4 => array('100%', 'Kundetilfredshet'),
+                );
+                foreach ($stat_defaults as $i => $d) :
+                ?>
                 <div>
-                    <div class="stat-value">15+</div>
-                    <div class="stat-label">År med erfaring</div>
+                    <div class="stat-value"><?php holthe_text("stat_{$i}_value", $d[0]); ?></div>
+                    <div class="stat-label"><?php holthe_text("stat_{$i}_label", $d[1]); ?></div>
                 </div>
-                <div>
-                    <div class="stat-value">100+</div>
-                    <div class="stat-label">Prosjekter levert</div>
-                </div>
-                <div>
-                    <div class="stat-value">24/7</div>
-                    <div class="stat-label">Support</div>
-                </div>
-                <div>
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">Kundetilfredshet</div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -194,11 +192,11 @@ get_header();
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
-            <h2>Klar for å starte ditt neste prosjekt?</h2>
-            <p>La oss skape noe ekstraordinært sammen. Kontakt oss i dag for en uforpliktende samtale.</p>
+            <h2><?php holthe_text('cta_title', 'Klar for å starte ditt neste prosjekt?'); ?></h2>
+            <p><?php holthe_text('cta_description', 'La oss skape noe ekstraordinært sammen. Kontakt oss i dag for en uforpliktende samtale.'); ?></p>
             <div class="btn-group">
-                <a href="<?php echo esc_url(holthe_page_url('kontakt')); ?>" class="btn btn-primary">Kontakt oss</a>
-                <a href="tel:<?php echo esc_attr(holthe_phone_tel()); ?>" class="btn btn-outline">Ring <?php echo esc_html(holthe_phone()); ?></a>
+                <a href="<?php echo esc_url(holthe_page_url('kontakt')); ?>" class="btn btn-primary"><?php holthe_text('cta_btn_primary', 'Kontakt oss'); ?></a>
+                <a href="tel:<?php echo esc_attr(holthe_phone_tel()); ?>" class="btn btn-outline"><?php holthe_text('cta_btn_phone', 'Ring ' . holthe_phone()); ?></a>
             </div>
         </div>
     </section>

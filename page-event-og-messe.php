@@ -4,6 +4,7 @@
  * Template Post Type: page
  */
 get_header();
+the_post();
 ?>
 
 <main class="site-main">
