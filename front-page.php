@@ -10,18 +10,18 @@ get_header();
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg">
-            <img src="https://static.databutton.com/public/ca58cdb8-201c-42a8-9834-41357ff535e6/anastassia-anufrieva-EHzVStpohCg-unsplash.jpg" alt="Strategi">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/images/hero-chess.jpg'); ?>" alt="Strategi">
         </div>
         <div class="container">
             <div class="hero-content">
                 <h1>
-                    Holthe Marketing.<br>
-                    Idé. Produksjon.<br>
-                    <span class="muted">Suksess.</span>
+                    Markedsføring<br>
+                    som skaper<br>
+                    <span class="muted">resultater</span>
                 </h1>
-                <p class="hero-subtitle">Der markedsføring møter</p>
-                <p class="hero-subtitle-strong">eksepsjonell gjennomføring</p>
-                <p class="hero-subtitle-small">Gjort virkelighet av Holthe&reg;</p>
+                <p class="hero-subtitle">Din totalleverandør innen</p>
+                <p class="hero-subtitle-strong">markedsføring, reklameprodukter og arrangementer.</p>
+                <p class="hero-subtitle-small">Vi gjør næringslivet synlig</p>
                 <div class="btn-group">
                     <a href="<?php echo esc_url(holthe_page_url('kontakt')); ?>" class="btn btn-white">Start ditt prosjekt</a>
                     <a href="<?php echo esc_url(holthe_page_url('arbeid')); ?>" class="btn btn-outline-white">Se vårt arbeid</a>
@@ -138,8 +138,8 @@ get_header();
                 <div class="service-item">
                     <div class="service-number">01</div>
                     <div class="service-content">
-                        <h3><a href="<?php echo esc_url(holthe_page_url('radgivning')); ?>">Rådgivning</a></h3>
-                        <p>Har du en plan for markedsføringen din? Vi hjelper deg med å legge en strategi som når din kundegruppe på en effektiv måte.</p>
+                        <h3><a href="<?php echo esc_url(holthe_page_url('markedsforing')); ?>">Markedsføring</a></h3>
+                        <p>Vi kan være din eksterne markedsavdeling og bistå der dere trenger det &#8211; enten det er digital eller analog markedsføring.</p>
                     </div>
                 </div>
                 <div class="service-item">
@@ -159,8 +159,8 @@ get_header();
                 <div class="service-item">
                     <div class="service-number">04</div>
                     <div class="service-content">
-                        <h3><a href="<?php echo esc_url(holthe_page_url('markedsforing')); ?>">Markedsføring</a></h3>
-                        <p>Vi kan være din markedsavdeling og bistå der dere trenger det &#8211; enten det er digital eller analog markedsføring.</p>
+                        <h3><a href="<?php echo esc_url(holthe_page_url('radgivning')); ?>">Rådgivning</a></h3>
+                        <p>Har du en plan for markedsføringen din? Vi hjelper deg med å legge en strategi som når din kundegruppe på en effektiv måte.</p>
                     </div>
                 </div>
             </div>

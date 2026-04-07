@@ -16,7 +16,7 @@
                 <?php if (has_custom_logo()) : ?>
                     <?php the_custom_logo(); ?>
                 <?php else : ?>
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/images/logo.png'); ?>" alt="<?php bloginfo('name'); ?>">
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/images/holthe-logo.png'); ?>" alt="<?php bloginfo('name'); ?>">
                 <?php endif; ?>
             </a>
         </div>
@@ -63,12 +63,13 @@
  */
 function holthe_default_nav() {
     $items = array(
-        'om-oss'               => 'Om oss',
         'arbeid'               => 'Arbeid',
-        'radgivning'           => 'Rådgivning',
-        'event-og-messe'       => 'Event & Messe',
-        'reklameproduksjon'    => 'Reklameproduksjon',
         'markedsforing'        => 'Markedsføring',
+        'nettsider'            => 'Nettsider',
+        'reklameproduksjon'    => 'Reklameproduksjon',
+        'event-og-messe'       => 'Event og Messe',
+        'radgivning'           => 'Rådgivning',
+        'om-oss'               => 'Om Oss',
         'kontakt'              => 'Kontakt',
     );
     echo '<ul>';
