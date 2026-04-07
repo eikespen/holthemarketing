@@ -421,6 +421,14 @@ main {
     overflow: hidden;
 }
 
+.hero > .container {
+    /* Flex item needs explicit width:100% to fill horizontally so the
+       hero content aligns to the left edge of the container, not to the
+       center of the flex row. */
+    width: 100%;
+    flex: 1;
+}
+
 .hero-bg {
     position: absolute;
     inset: 0;

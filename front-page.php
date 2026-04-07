@@ -57,6 +57,7 @@ if ($front_id) {
                     while ($cases->have_posts()) : $cases->the_post();
                         $logo     = get_post_meta(get_the_ID(), 'logo_url', true);
                         $category = get_post_meta(get_the_ID(), 'category', true);
+                        $testim   = get_post_meta(get_the_ID(), 'testimonial', true);
                         $author   = get_post_meta(get_the_ID(), 'testimonial_author', true);
                         $role     = get_post_meta(get_the_ID(), 'testimonial_role', true);
                 ?>
@@ -75,11 +76,15 @@ if ($front_id) {
                             <span class="badge"><?php echo esc_html($category); ?></span>
                         <?php endif; ?>
                         <h3 class="case-title" style="margin-top: 1rem;"><?php the_title(); ?></h3>
-                        <p class="case-description"><?php echo wp_kses_post(get_the_excerpt()); ?></p>
+                        <?php if ($testim) : ?>
+                            <p class="case-description" style="color:#4b5563;"><?php echo esc_html($testim); ?></p>
+                        <?php else : ?>
+                            <p class="case-description"><?php echo wp_kses_post(get_the_excerpt()); ?></p>
+                        <?php endif; ?>
                         <?php if ($author) : ?>
-                            <div class="case-testimonial">
-                                <div class="author"><?php echo esc_html($author); ?></div>
-                                <div><?php echo esc_html($role); ?></div>
+                            <div style="font-size:0.875rem;color:#6b7280;margin-top:1rem;">
+                                <div style="font-weight:500;color:#374151;"><?php echo esc_html($author); ?></div>
+                                <div style="font-style:italic;"><?php echo esc_html($role); ?></div>
                             </div>
                         <?php endif; ?>
                     </div>
