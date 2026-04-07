@@ -476,14 +476,44 @@ add_action('add_meta_boxes_page', function ($post) {
 function holthe_mb_generic_page($post) {
     holthe_mb_nonce('generic_page');
 
-    echo '<p style="color:#666;margin-top:0;">Hero-seksjon og CTA på bunnen. Hovedinnholdet (under Hero) redigeres i selve innholdseditoren.</p>';
+    echo '<p style="color:#666;margin-top:0;">Alle seksjoner er valgfrie. Hovedinnholdet (fri tekst) redigeres i selve innholdseditoren under disse feltene.</p>';
 
     holthe_mb_section('Hero');
     holthe_mb_text($post, 'hero_badge', 'Merke (badge)', 'Tjenester');
     holthe_mb_text($post, 'hero_title', 'Tittel (overstyrer sidetittelen)', $post->post_title);
     holthe_mb_textarea($post, 'hero_description', 'Beskrivelse', 3);
 
-    holthe_mb_section('CTA nederst (valgfritt)');
+    holthe_mb_section('Våre tjenester (4 kort)');
+    echo '<p style="color:#666;margin:0;">La "Tittel" stå tom for å skjule et kort. Tags er en liste adskilt med komma.</p>';
+    for ($i = 1; $i <= 4; $i++) {
+        echo '<div style="padding:1em;background:#f6f7f7;border-left:3px solid #2271b1;margin:1em 0;">';
+        echo "<strong>Kort $i</strong>";
+        holthe_mb_text($post, "services_{$i}_title", 'Tittel');
+        holthe_mb_textarea($post, "services_{$i}_desc", 'Beskrivelse', 3);
+        holthe_mb_text($post, "services_{$i}_tags", 'Tags (komma-separert)', 'Google Ads, LinkedIn, SEO');
+        echo '</div>';
+    }
+
+    holthe_mb_section('Vår tilnærming (3 steg)');
+    holthe_mb_text($post, 'approach_title', 'Seksjonstittel', 'Vår tilnærming');
+    holthe_mb_textarea($post, 'approach_description', 'Seksjonsbeskrivelse', 2);
+    for ($i = 1; $i <= 3; $i++) {
+        echo '<div style="padding:1em;background:#f6f7f7;border-left:3px solid #2271b1;margin:1em 0;">';
+        echo '<strong>Steg ' . sprintf('%02d', $i) . '</strong>';
+        holthe_mb_text($post, "approach_{$i}_title", 'Tittel');
+        holthe_mb_textarea($post, "approach_{$i}_desc", 'Beskrivelse', 2);
+        echo '</div>';
+    }
+
+    holthe_mb_section('Statistikk-seksjon');
+    holthe_mb_text($post, 'stats_title', 'Seksjonstittel', 'Resultater som teller');
+    holthe_mb_textarea($post, 'stats_description', 'Seksjonsbeskrivelse', 2);
+    for ($i = 1; $i <= 3; $i++) {
+        holthe_mb_text($post, "stat_{$i}_value", "Tall $i verdi");
+        holthe_mb_text($post, "stat_{$i}_label", "Tall $i tekst");
+    }
+
+    holthe_mb_section('CTA nederst');
     holthe_mb_text($post, 'cta_title', 'CTA tittel', 'Klar for å starte?');
     holthe_mb_textarea($post, 'cta_description', 'CTA beskrivelse', 2, 'Kontakt oss for en uforpliktende samtale.');
     holthe_mb_text($post, 'cta_show', 'Vis CTA? (1 = vis, 0 = skjul)', '1');
@@ -491,10 +521,24 @@ function holthe_mb_generic_page($post) {
 
 add_action('save_post_page', function ($post_id) {
     if (!holthe_mb_verify('generic_page')) return;
-    holthe_mb_save_keys($post_id, array(
+    $keys = array(
         'hero_badge','hero_title','hero_description',
+        'approach_title','approach_description',
+        'stats_title','stats_description',
         'cta_title','cta_description','cta_show',
-    ));
+    );
+    for ($i = 1; $i <= 4; $i++) {
+        $keys[] = "services_{$i}_title";
+        $keys[] = "services_{$i}_desc";
+        $keys[] = "services_{$i}_tags";
+    }
+    for ($i = 1; $i <= 3; $i++) {
+        $keys[] = "approach_{$i}_title";
+        $keys[] = "approach_{$i}_desc";
+        $keys[] = "stat_{$i}_value";
+        $keys[] = "stat_{$i}_label";
+    }
+    holthe_mb_save_keys($post_id, $keys);
 });
 
 // -----------------------------------------------------------------------------
