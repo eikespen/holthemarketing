@@ -444,3 +444,84 @@ add_action('save_post_page', function ($post_id) {
     }
     holthe_mb_save_keys($post_id, $keys);
 });
+
+// -----------------------------------------------------------------------------
+// GENERIC PAGE META BOX (for pages using the default page.php template)
+// Covers Nettsider, Nettsidepakker, Digital/Tradisjonell markedsføring,
+// Annonsering, Innholdsproduksjon, Tekst til nettsider, and any custom page.
+// -----------------------------------------------------------------------------
+add_action('add_meta_boxes_page', function ($post) {
+    $custom_templates = array(
+        'page-om-oss.php',
+        'page-kontakt.php',
+        'page-arbeid.php',
+        'page-radgivning.php',
+        'page-event-og-messe.php',
+        'page-reklameproduksjon.php',
+        'page-markedsforing.php',
+    );
+    if (holthe_is_front_page_edit($post)) return;
+    if (in_array(holthe_current_template($post), $custom_templates, true)) return;
+
+    add_meta_box(
+        'holthe_generic_page',
+        'Sideinnhold',
+        'holthe_mb_generic_page',
+        'page',
+        'normal',
+        'high'
+    );
+});
+
+function holthe_mb_generic_page($post) {
+    holthe_mb_nonce('generic_page');
+
+    echo '<p style="color:#666;margin-top:0;">Hero-seksjon og CTA på bunnen. Hovedinnholdet (under Hero) redigeres i selve innholdseditoren.</p>';
+
+    holthe_mb_section('Hero');
+    holthe_mb_text($post, 'hero_badge', 'Merke (badge)', 'Tjenester');
+    holthe_mb_text($post, 'hero_title', 'Tittel (overstyrer sidetittelen)', $post->post_title);
+    holthe_mb_textarea($post, 'hero_description', 'Beskrivelse', 3);
+
+    holthe_mb_section('CTA nederst (valgfritt)');
+    holthe_mb_text($post, 'cta_title', 'CTA tittel', 'Klar for å starte?');
+    holthe_mb_textarea($post, 'cta_description', 'CTA beskrivelse', 2, 'Kontakt oss for en uforpliktende samtale.');
+    holthe_mb_text($post, 'cta_show', 'Vis CTA? (1 = vis, 0 = skjul)', '1');
+}
+
+add_action('save_post_page', function ($post_id) {
+    if (!holthe_mb_verify('generic_page')) return;
+    holthe_mb_save_keys($post_id, array(
+        'hero_badge','hero_title','hero_description',
+        'cta_title','cta_description','cta_show',
+    ));
+});
+
+// -----------------------------------------------------------------------------
+// REORDER: put Holthe meta boxes at the top of the "normal" column
+// so they render before Yoast, Elementor, etc.
+// -----------------------------------------------------------------------------
+add_action('do_meta_boxes', function ($post_type, $context, $post) {
+    if ($context !== 'normal') return;
+    if (!in_array($post_type, array('page', 'case_study', 'news'), true)) return;
+
+    global $wp_meta_boxes;
+    if (empty($wp_meta_boxes[$post_type]['normal'])) return;
+
+    foreach ($wp_meta_boxes[$post_type]['normal'] as $priority => $boxes) {
+        if (!is_array($boxes)) continue;
+        $holthe = array();
+        $rest   = array();
+        foreach ($boxes as $id => $box) {
+            if (strpos($id, 'holthe_') === 0) {
+                $holthe[$id] = $box;
+            } else {
+                $rest[$id] = $box;
+            }
+        }
+        if ($holthe) {
+            $wp_meta_boxes[$post_type]['normal'][$priority] = array_merge($holthe, $rest);
+        }
+    }
+}, 1, 3);
+
