@@ -16,9 +16,17 @@ if ($front_id) {
 <main class="site-main">
 
     <!-- Hero Section -->
+    <?php
+    // Hero background: prefer Media Library attachment (editable in admin)
+    // over the bundled theme image.
+    $hero_bg_id  = (int) get_option('holthe_hero_bg_id');
+    $hero_bg_url = $hero_bg_id
+        ? wp_get_attachment_image_url($hero_bg_id, 'full')
+        : get_template_directory_uri() . '/images/hero-chess.jpg';
+    ?>
     <section class="hero">
         <div class="hero-bg">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/images/hero-chess.jpg'); ?>" alt="Strategi">
+            <img src="<?php echo esc_url($hero_bg_url); ?>" alt="Strategi">
         </div>
         <div class="container">
             <div class="hero-content">
