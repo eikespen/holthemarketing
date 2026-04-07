@@ -148,25 +148,57 @@ a:hover {
     margin-left: 0.25rem;
 }
 
-.main-navigation .sub-menu {
+.main-navigation .menu-item-has-children::after {
+    /* Invisible hover bridge that keeps the dropdown open while the cursor
+       crosses the visual gap between the parent item and the submenu. */
+    content: "";
     position: absolute;
     top: 100%;
     left: 0;
+    right: -1rem;
+    height: 1rem;
+    background: transparent;
+    pointer-events: auto;
+    display: none;
+}
+
+.main-navigation .menu-item-has-children:hover::after,
+.main-navigation .menu-item-has-children:focus-within::after {
+    display: block;
+}
+
+.main-navigation .sub-menu {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: -1rem;
     background: #000;
     border: 1px solid #1f1f1f;
     border-radius: 0.5rem;
-    min-width: 240px;
+    min-width: 260px;
     padding: 0.5rem 0;
     display: none;
     flex-direction: column;
     gap: 0;
-    margin-top: 0.5rem;
+    margin-top: 0;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    list-style: none;
 }
 
 .main-navigation .menu-item-has-children:hover > .sub-menu,
 .main-navigation .menu-item-has-children:focus-within > .sub-menu {
     display: flex;
+}
+
+.main-navigation .sub-menu::before {
+    /* Same hover bridge — invisible area above the visible dropdown that
+       connects it to the parent item so the hover is never lost. */
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -0.75rem;
+    height: 0.75rem;
+    background: transparent;
 }
 
 .main-navigation .sub-menu li {
