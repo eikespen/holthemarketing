@@ -9,6 +9,14 @@
 // Include meta boxes
 require_once get_template_directory() . '/inc/meta-boxes.php';
 
+// Force Norwegian bokmål on the frontend so Yoast, html lang, and
+// og:locale all use nb_NO regardless of the WordPress site setting.
+add_filter('locale', function ($locale) {
+    if (is_admin()) return $locale;
+    return 'nb_NO';
+});
+add_filter('wpseo_locale', function () { return 'nb_NO'; });
+
 // Theme Setup
 function holthe_theme_setup() {
     add_theme_support('title-tag');
