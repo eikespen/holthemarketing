@@ -146,7 +146,8 @@ add_action('save_post_case_study', function ($post_id) {
 // -----------------------------------------------------------------------------
 // FRONT PAGE META BOX
 // -----------------------------------------------------------------------------
-add_action('add_meta_boxes', function () {
+add_action('add_meta_boxes_page', function ($post) {
+    if (!holthe_is_front_page_edit($post)) return;
     add_meta_box(
         'holthe_front_page',
         'Forsideinnhold',
@@ -158,10 +159,6 @@ add_action('add_meta_boxes', function () {
 });
 
 function holthe_mb_front_page($post) {
-    if (!holthe_is_front_page_edit($post)) {
-        echo '<p style="color:#666;">Denne boksen vises kun for siden som er satt som forside under Innstillinger &rarr; Lesing.</p>';
-        return;
-    }
     holthe_mb_nonce('front_page');
 
     holthe_mb_section('Hero');
@@ -215,7 +212,8 @@ add_action('save_post_page', function ($post_id) {
 // -----------------------------------------------------------------------------
 // OM OSS META BOX
 // -----------------------------------------------------------------------------
-add_action('add_meta_boxes', function () {
+add_action('add_meta_boxes_page', function ($post) {
+    if (holthe_current_template($post) !== 'page-om-oss.php') return;
     add_meta_box(
         'holthe_om_oss',
         'Om oss – seksjoner',
@@ -227,10 +225,6 @@ add_action('add_meta_boxes', function () {
 });
 
 function holthe_mb_om_oss($post) {
-    if (holthe_current_template($post) !== 'page-om-oss.php') {
-        echo '<p style="color:#666;">Velg sidemalen "Om oss" under Egenskaper &rarr; Sidemal.</p>';
-        return;
-    }
     holthe_mb_nonce('om_oss');
 
     holthe_mb_section('Hero');
@@ -288,7 +282,8 @@ add_action('save_post_page', function ($post_id) {
 // -----------------------------------------------------------------------------
 // KONTAKT META BOX
 // -----------------------------------------------------------------------------
-add_action('add_meta_boxes', function () {
+add_action('add_meta_boxes_page', function ($post) {
+    if (holthe_current_template($post) !== 'page-kontakt.php') return;
     add_meta_box(
         'holthe_kontakt',
         'Kontakt – seksjoner',
@@ -300,10 +295,6 @@ add_action('add_meta_boxes', function () {
 });
 
 function holthe_mb_kontakt($post) {
-    if (holthe_current_template($post) !== 'page-kontakt.php') {
-        echo '<p style="color:#666;">Velg sidemalen "Kontakt" under Egenskaper &rarr; Sidemal.</p>';
-        return;
-    }
     holthe_mb_nonce('kontakt');
 
     holthe_mb_section('Hero');
@@ -354,7 +345,8 @@ add_action('save_post_page', function ($post_id) {
 // -----------------------------------------------------------------------------
 // ARBEID META BOX
 // -----------------------------------------------------------------------------
-add_action('add_meta_boxes', function () {
+add_action('add_meta_boxes_page', function ($post) {
+    if (holthe_current_template($post) !== 'page-arbeid.php') return;
     add_meta_box(
         'holthe_arbeid',
         'Arbeid – seksjoner',
@@ -366,10 +358,6 @@ add_action('add_meta_boxes', function () {
 });
 
 function holthe_mb_arbeid($post) {
-    if (holthe_current_template($post) !== 'page-arbeid.php') {
-        echo '<p style="color:#666;">Velg sidemalen "Arbeid" under Egenskaper &rarr; Sidemal.</p>';
-        return;
-    }
     holthe_mb_nonce('arbeid');
 
     holthe_mb_section('Hero');
@@ -401,7 +389,14 @@ add_action('save_post_page', function ($post_id) {
 // -----------------------------------------------------------------------------
 // SERVICE PAGE META BOX (shared across Rådgivning, Event, Reklame, Markedsføring)
 // -----------------------------------------------------------------------------
-add_action('add_meta_boxes', function () {
+add_action('add_meta_boxes_page', function ($post) {
+    $service_templates = array(
+        'page-radgivning.php',
+        'page-event-og-messe.php',
+        'page-reklameproduksjon.php',
+        'page-markedsforing.php',
+    );
+    if (!in_array(holthe_current_template($post), $service_templates, true)) return;
     add_meta_box(
         'holthe_service',
         'Tjenestesideinnhold',
@@ -413,17 +408,6 @@ add_action('add_meta_boxes', function () {
 });
 
 function holthe_mb_service($post) {
-    $service_templates = array(
-        'page-radgivning.php',
-        'page-event-og-messe.php',
-        'page-reklameproduksjon.php',
-        'page-markedsforing.php',
-    );
-    $tpl = holthe_current_template($post);
-    if (!in_array($tpl, $service_templates, true)) {
-        echo '<p style="color:#666;">Velg en tjenestesidemal (Rådgivning, Event &amp; Messe, Reklameproduksjon, Markedsføring).</p>';
-        return;
-    }
     holthe_mb_nonce('service');
 
     holthe_mb_section('Hero');
